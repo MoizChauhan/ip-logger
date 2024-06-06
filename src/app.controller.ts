@@ -7,8 +7,8 @@ import { Logger } from '@nestjs/common';
 export class AppController {
   private readonly logger = new Logger(AppController.name);
 
-  @Get('log_ip')
-  @Post('log_ip')
+  @Get()
+  @Post()
   logIp(@Req() request: Request): string {
     const clientIp = request.ip;
     console.log(`Request from IP: ${clientIp}`)
