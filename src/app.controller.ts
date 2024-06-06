@@ -10,8 +10,15 @@ export class AppController {
   @Get()
   @Post()
   logIp(@Req() request: Request): string {
-    const clientIp = request.ip;
-    console.log(`Request from IP: ${clientIp}`)
+    let clientIp: string;
+
+    // Check if the app is behind a proxy and the headers are set correctly
+    if (request.headers['x-forwarded-for']) {
+      clientIp = (request.headers['x-forwarded-for'] as string).split(',')[0];
+    } else {
+      clientIp = request.connection.remoteAddress;
+    }
+
     this.logger.log(`Request from IP: ${clientIp}`);
     return `Request received from IP: ${clientIp}`;
   }
